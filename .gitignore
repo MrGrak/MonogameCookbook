@@ -1,0 +1,18 @@
+
+
+
+
+
+
+## keep repo size small, only track code/game related changes
+
+# User-specific files
+*.suo
+*.tmp
+*.TMP
+
+# very large folders to ignore
+Core_DirectX_Sample/
+VIDEOS/
+
+
