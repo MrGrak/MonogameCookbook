@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Diagnostics;
 
 namespace Game1
@@ -42,19 +43,19 @@ namespace Game1
         {
             base.Initialize();
             //initialize arrays to size
-            for(int i = 0; i < size; i++)
+            for (int i = 0; i < size; i++)
             {
                 structArray[i] = new SParticle(new Vector2(100, 100));
                 classArray[i] = new CParticle(new Vector2(100, 100));
                 floatArray[i] = 100f;
             }
         }
-        
+
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
         }
-        
+
         protected override void UnloadContent() { }
 
         int frames = 0;
@@ -69,7 +70,9 @@ namespace Game1
 
             //periodically time gravity being applied to particles
             frames++;
-            if(frames == 60 * 2)
+
+            //wait a bit before timing
+            if (frames == 60 * 2)
             {
                 frames = 0;
 
@@ -86,7 +89,7 @@ namespace Game1
 
                 stopwatch.Restart();
                 //loop struct array, updating positions
-                for(int i = 0; i < size; i++)
+                for (int i = 0; i < size; i++)
                 {
                     structArray[i].position.Y += gravity;
                     if (structArray[i].position.Y > 1024)
@@ -106,13 +109,13 @@ namespace Game1
                 stopwatch.Stop();
                 floatTime = stopwatch.ElapsedTicks;
 
-                //what took the longest? class, struct, float
-                Debug.WriteLine("\nclass array time: " + classTime);
-                Debug.WriteLine("struct array time: " + structTime);
-                Debug.WriteLine("float array time: " + floatTime);
+                //what took the longest? class, struct, float (works in release mode)
+                Trace.WriteLine("class array time: " + classTime);
+                Trace.WriteLine("struct array time: " + structTime);
+                Trace.WriteLine("float array time: " + floatTime);
             }
         }
-        
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
