@@ -103,9 +103,9 @@ this may take several years, so bear with me.
 	
 # Structure of Data
 	-Classes, Structs, Pointers, DoD, AoS, Speed and Size
-	-Class vs Struct
+	-Class vs Struct (completed)
 	-A Class Particle System
-	-A Struct Particle System
+	-A Struct Particle System (completed)
 	-Designing with compact structs in arrays for optimization
 	
 # Designing Codebases
