@@ -92,7 +92,7 @@ namespace Game1
             deadIndex++;
             //bound dead index to array size
             if (deadIndex >= size)
-            { deadIndex = size-1; }
+            { deadIndex = size - 1; }
         }
 
         public static void Update()
@@ -138,7 +138,7 @@ namespace Game1
                 { isAlive = false; }
 
                 if (isAlive)
-                {   
+                {
                     //add gravity to push down
                     P.physics.accY += gravity;
                     //add wind to push left/right
@@ -188,7 +188,7 @@ namespace Game1
         public static void Draw()
         {   //open spritebatch and draw active particles
             Data.SB.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp);
-            
+
             int s = deadIndex; //size
             for (int i = 0; i < s; i++)
             {   //if particle is active, draw it
@@ -250,12 +250,15 @@ namespace Game1
             base.Draw(gameTime);
             ParticleSystem.Draw();
             timer.Stop();
+
+            /* this wont work for all platforms
             Data.GAME.Window.Title =
                 "AoS Particle System Example by @_mrgrak" +
                 "- ticks: " + timer.ElapsedTicks +
                 " - total particles: " + ParticleSystem.deadIndex +
-                " / " + ParticleSystem.size
-                ;
+                " / " + ParticleSystem.size;
+            */
+
         }
     }
 }

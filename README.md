@@ -1,7 +1,9 @@
 # Monogame Cookbook
 
-A collection of code samples and examples for Monogame developers.
-You may find them useful or useless. //MrGrak
+A collection of code samples and examples for Monogame developers.  
+You may find them useful or useless.  Use as you wish.  
+These are written in vs2019, with monogame 3.8.  
+//MrGrak
 
 
 
@@ -101,6 +103,7 @@ this may take several years, so bear with me.
 	
 # Structure of Data
 	-Classes, Structs, Pointers, DoD, AoS, Speed and Size
+	-Class vs Struct
 	-A Class Particle System
 	-A Struct Particle System
 	-Designing with compact structs in arrays for optimization
