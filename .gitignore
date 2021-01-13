@@ -13,6 +13,7 @@
 
 # very large folders to ignore
 Core_DirectX_Sample/
+DirectX_Sample/
 VIDEOS/
 
 
