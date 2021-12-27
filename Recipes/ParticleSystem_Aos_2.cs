@@ -113,7 +113,7 @@ namespace Game1
                 //like a stack copy of the data, might be ignored
                 Particle P = data[i];
 
-                bool isAlive = true;
+                bool isAlive;
                 
 
                 //affect particles based on id
@@ -134,9 +134,8 @@ namespace Game1
                 if (P.X < 0) { P.accX += 0.2f; P.color.G -= 10; P.color.B -= 10; }
                 else if (P.X > width) { P.accX -= 0.2f; P.color.G -= 10; P.color.B -= 10; }
 
-                //cull particle if it goes off screen vertically
-                if (P.Y < 0 || P.Y > height)
-                { isAlive = false; }
+                //cull particle if it goes off screen vertically                
+                isAlive = (P.Y >= 0 && P.Y <= height);
 
                 if (isAlive)
                 {
