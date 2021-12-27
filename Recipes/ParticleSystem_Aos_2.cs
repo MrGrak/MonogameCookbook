@@ -89,6 +89,9 @@ namespace Game1
             if (lastActive >= size)
             { lastActive = size - 1; }
         }
+        static float wind;
+        static int width;
+        static int height;
 
         public static void Update()
         {   //step 1 - update/animate all the particles
@@ -97,11 +100,11 @@ namespace Game1
             //increase wind counter
             windCounter += 0.015f;
             //get left or right horizontal value for wind
-            float wind = (float)Math.Sin(windCounter) * 0.03f;
+            wind = (float)Math.Sin(windCounter) * 0.03f;
 
             //shorten these for later use
-            int width = Data.GDM.GraphicsDevice.Viewport.Width;
-            int height = Data.GDM.GraphicsDevice.Viewport.Height;
+            width = Data.GDM.GraphicsDevice.Viewport.Width;
+            height = Data.GDM.GraphicsDevice.Viewport.Height;
 
             for (int i = lastActive - 1; i >= 0; i--)
             {   
