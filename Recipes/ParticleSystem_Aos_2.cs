@@ -100,8 +100,8 @@ namespace Game1
             float wind = (float)Math.Sin(windCounter) * 0.03f;
 
             //shorten these for later use
-            int width = Data.GDM.PreferredBackBufferWidth;
-            int height = Data.GDM.PreferredBackBufferHeight;
+            int width = Data.GDM.GraphicsDevice.Viewport.Width;
+            int height = Data.GDM.GraphicsDevice.Viewport.Height;
 
             for (int i = lastActive - 1; i >= 0; i--)
             {   
