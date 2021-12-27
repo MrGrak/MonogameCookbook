@@ -32,7 +32,7 @@ namespace Game1
 
     public static class ParticleSystem
     {
-        public const int size = 150000;
+        public const int size = 50000;
         public static Particle[] data = new Particle[size];
 
         static Random Rand = new Random();
@@ -42,12 +42,12 @@ namespace Game1
         public static float windCounter = 0;
         public static int lastActive = 0;
         public static MouseState MS;
-        
-        
+
+
 
 
         public static void Reset()
-        {   
+        {
             //acts as a constructor as well
             if (texture == null)
             {   //set up a general texture we can draw dots with, if required
@@ -65,7 +65,7 @@ namespace Game1
             float X, float Y,       //spawn x, y position 
             float accX, float accY  //initial x, y acceleration
             )
-        {   
+        {
             Particle P = new Particle();
             P.X = X; P.preX = X;
             P.Y = Y; P.preY = Y;
@@ -86,7 +86,7 @@ namespace Game1
             P.color.R += (byte)Rand.Next(0, 100);
 
             P.Id = ID;
-            
+
             //save P to heap
             data[lastActive] = P;
             lastActive++;
@@ -115,16 +115,16 @@ namespace Game1
             MS = Mouse.GetState();
 
             for (int i = lastActive - 1; i >= 0; i--)
-            {   
+            {
 
                 //here we're hinting to compiler that we'd
                 //like a stack copy of the data, might be ignored
                 Particle P = data[i];
 
                 bool isAlive = true;
-                
-                
-                
+
+
+
                 //push particles off sides of screen horizontally
                 if (P.X < 0)
                 { P.accX += 0.25f; P.color.G += 10; }
@@ -142,7 +142,7 @@ namespace Game1
                     P.accX += wind;
                     //push upwards
                     P.accY -= 0.02f;
-                    
+
 
                     #region Interact with Mouse
 
@@ -158,8 +158,8 @@ namespace Game1
                         {
                             //push collisions away from circle
                             if (MS.X < P.X)
-                            { P.accX += Rand.Next(0, 100) * 0.01f; }
-                            else { P.accY -= Rand.Next(0, 100) * 0.01f; }
+                            { P.accX += Rand.Next(0, 100) * 0.002f; }
+                            else { P.accX -= Rand.Next(0, 100) * 0.002f; }
 
                             //alter color of hit particle
                             P.color.G += 15;
@@ -197,20 +197,20 @@ namespace Game1
                     }
                     else { lastActive--; }
                 }
-                
+
             }
 
             #endregion
 
 
             //step 2 - create new particles
-            int numberOfParticlesToSpawn = 500;
+            int numberOfParticlesToSpawn = 200;
             if (lastActive + numberOfParticlesToSpawn < size)
             {
                 for (int i = 0; i < numberOfParticlesToSpawn; i++)
                 {   //step 2 - randomly spawn fire
-                    Spawn(ParticleID.Active, 
-                        Rand.Next(0 + 1, width - 1), height, 
+                    Spawn(ParticleID.Active,
+                        Rand.Next(0 + 1, width - 1), height,
                         0, Rand.Next(-100, 0) * 0.01f);
                 }
             }
@@ -224,7 +224,7 @@ namespace Game1
             for (int i = 0; i < s; i++)
             {   //if particle is active, draw it
                 if (data[i].Id > 0)
-                {  
+                {
                     Vector2 pos = new Vector2(data[i].X, data[i].Y);
                     Data.SB.Draw(texture,
                         pos,
