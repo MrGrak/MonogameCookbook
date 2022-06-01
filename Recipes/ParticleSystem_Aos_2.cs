@@ -89,6 +89,9 @@ namespace Game1
             if (lastActive >= size)
             { lastActive = size - 1; }
         }
+        static float wind;
+        static int width;
+        static int height;
 
         public static void Update()
         {   //step 1 - update/animate all the particles
@@ -97,70 +100,18 @@ namespace Game1
             //increase wind counter
             windCounter += 0.015f;
             //get left or right horizontal value for wind
-            float wind = (float)Math.Sin(windCounter) * 0.03f;
+            wind = (float)Math.Sin(windCounter) * 0.03f;
 
             //shorten these for later use
-            int width = Data.GDM.PreferredBackBufferWidth;
-            int height = Data.GDM.PreferredBackBufferHeight;
+            width = Data.GDM.GraphicsDevice.Viewport.Width;
+            height = Data.GDM.GraphicsDevice.Viewport.Height;
 
             for (int i = lastActive - 1; i >= 0; i--)
             {   
 
                 //here we're hinting to compiler that we'd
                 //like a stack copy of the data, might be ignored
-                Particle P = data[i];
-
-                bool isAlive = true;
-                
-
-                //affect particles based on id
-                if (P.Id == ParticleID.Fire)
-                {   //fire rises, gravity does not affect it
-                    P.accY -= gravity;
-                    P.accY -= 0.02f;
-                    //animate color to be darker
-                    P.color.G-=1;
-                    P.color.B-=1;
-                }
-                //else if (P.Id == ParticleID.Rain)
-                {   //rain falls (at different speeds)
-                    //P.accY = Rand.Next(0, 100) * 0.001f;
-                }
-                
-                //push particles off sides of screen horizontally
-                if (P.X < 0) { P.accX += 0.2f; P.color.G -= 10; P.color.B -= 10; }
-                else if (P.X > width) { P.accX -= 0.2f; P.color.G -= 10; P.color.B -= 10; }
-
-                //cull particle if it goes off screen vertically
-                if (P.Y < 0 || P.Y > height)
-                { isAlive = false; }
-
-                if (isAlive)
-                {
-                    //add gravity to push down
-                    P.accY += gravity;
-                    //add wind to push left/right
-                    P.accX += wind;
-
-                    //calculate velocity using current and previous pos
-                    float velocityX = P.X - P.preX;
-                    float velocityY = P.Y - P.preY;
-
-                    //store previous positions (the current positions)
-                    P.preX = P.X;
-                    P.preY = P.Y;
-
-                    //set next positions using current + velocity + acceleration
-                    P.X = P.X + velocityX + P.accX;
-                    P.Y = P.Y + velocityY + P.accY;
-
-                    //clear accelerations
-                    P.accX = 0; P.accY = 0;
-
-                    //write local to heap
-                    data[i] = P;
-                }
-                else
+                if (!UpdateParticle(ref data[i]))
                 {   //deactivate particle
                     if (i < lastActive - 1)
                     {
@@ -182,6 +133,56 @@ namespace Game1
                         Rand.Next(0 + 100, width - 101), height, 
                         0, Rand.Next(-100, 0) * 0.01f);
                 }
+            }
+        }
+
+        private static bool UpdateParticle(ref Particle P)
+        {
+            //affect particles based on id
+            if (P.Id == ParticleID.Fire)
+            {   //fire rises, gravity does not affect it
+                P.accY -= gravity;
+                P.accY -= 0.02f;
+                //animate color to be darker
+                P.color.G-=1;
+                P.color.B-=1;
+            }
+            //else if (P.Id == ParticleID.Rain)
+            {   //rain falls (at different speeds)
+                //P.accY = Rand.Next(0, 100) * 0.001f;
+            }
+            
+            //push particles off sides of screen horizontally
+            if (P.X < 0) { P.accX += 0.2f; P.color.G -= 10; P.color.B -= 10; }
+            else if (P.X > width) { P.accX -= 0.2f; P.color.G -= 10; P.color.B -= 10; }
+
+            if ((P.Y >= 0 && P.Y <= height))
+            {
+                //add gravity to push down
+                P.accY += gravity;
+                //add wind to push left/right
+                P.accX += wind;
+
+                //calculate velocity using current and previous pos
+                float velocityX = P.X - P.preX;
+                float velocityY = P.Y - P.preY;
+
+                //store previous positions (the current positions)
+                P.preX = P.X;
+                P.preY = P.Y;
+
+                //set next positions using current + velocity + acceleration
+                P.X = P.X + velocityX + P.accX;
+                P.Y = P.Y + velocityY + P.accY;
+
+                //clear accelerations
+                P.accX = 0; P.accY = 0;
+                return true;
+            }
+            else
+            {
+                //cull particle if it goes off screen vertically
+                return false;
             }
         }
 
