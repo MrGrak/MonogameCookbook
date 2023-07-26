@@ -9,7 +9,7 @@ using System.Threading;
 
 namespace StaticThreading
 {
-    //a compact 4 byte struct
+    //a compact 16 byte struct
     public struct Particle { public int X, Y, State, Id; }
 
     class Program
