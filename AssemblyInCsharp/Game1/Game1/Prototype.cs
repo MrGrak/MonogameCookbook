@@ -72,7 +72,7 @@ namespace Game1
             StringBuilder SB = new StringBuilder(2048);
 
             //read cpu id 0
-            SB.Append("manufacturer id + functions implemented\n");
+            SB.Append("manufacturer id\n");
             var buffer = CpuID.Invoke(0);
             var chars = Encoding.ASCII.GetChars(buffer);
             
